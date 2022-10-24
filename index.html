@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input class="login" placeholder="введите имя" type="text">
+    <input class="log2" placeholder="введите фамилия" type="text">
+    <button class="btn">зарегистрироваться</button>
+    <button class="btn2">выгрузить</button>
+    <span class="name"></span>
+    <span class="lastname"></span>
+</body>
+<script>
+    const login = document.querySelector('.login')
+    const log2 = document.querySelector('.log2')
+    const btn = document.querySelector('.btn')
+    const btn2 = document.querySelector('.btn2')
+
+    btn.addEventListener('click', ()=>{
+        const request = new XMLHttpRequest();
+        request.open('POST', 'data.json');
+        request.setRequestHeader('Content-type', 'application/json');
+
+        const data1 = JSON.stringify({"name":login.value, "lastname":log2.value});
+        request.send(data1)
+        console.log(data1)
+    });
+
+    btn2.addEventListener('click', ()=> {
+        const request2 = new XMLHttpRequest();
+        request2.open("GET", "data.json");
+        request2.setRequestHeader("Content-type", "application/json");
+        request2.send();
+        request2.addEventListener("load", ()=> {
+            console.log(JSON.parse(request2.response))
+            const data1 = JSON.parse(request2.response)
+            document.querySelector('.name').innerHTML = data1.name;
+            document.querySelector('.lastname').innerHTML = data1.lastname
+        })
+    })
+
+
+
+</script>
+</html>
